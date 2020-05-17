@@ -1,0 +1,2 @@
+#!/bin/sh
+sudo cp -f stubdom-linux-rootfs-orig-20200517  /usr/lib/xen/boot/stubdom-linux-rootfs
