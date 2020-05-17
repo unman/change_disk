@@ -1,0 +1,6 @@
+qube_name=$(xenstore-read "/local/domain/$domid/name")
+case "$qube_name" in
+	react*)
+dm_args=$(echo "$dm_args" | sed "s%-drive\\${IFS}file=/dev/xvda.*wwn=0x352540005175626.%-drive\\${IFS}if=ide,media=disk,file=/dev/xvda,id=disk0,format=host_device,cache=writeback,readonly=off%g")  ;;
+esac
+

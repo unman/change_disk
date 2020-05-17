@@ -1,0 +1,22 @@
+#!/bin/bash
+umask 077
+dname=$(mktemp -d)
+
+cp /usr/lib/xen/boot/stubdom-linux-rootfs $dname/stubdom-linux-rootfs
+cd $dname
+mv stubdom-linux-rootfs stubdom-linux-rootfs.gz
+gunzip stubdom-linux-rootfs.gz 
+cpio -i -d -H newc --no-absolute-filenames < stubdom-linux-rootfs 
+rm stubdom-linux-rootfs 
+
+sed -i "/IFS=\\$/ r /home/user/patch/init_patch" init
+
+
+
+
+find . -print0 |cpio --null -ov --format=newc |gzip -9 > stubdom-linux-rootfs-new
+sudo cp -f stubdom-linux-rootfs-new /usr/lib/xen/boot/stubdom-linux-rootfs
+
+cd 
+rm -rf $dname
+
